@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import validators.RateSteps;
 import validators.RateValidator;
 import static enums.CurrenciesNaming.*;
+import static enums.ErrorMsgNaming.PARAMETER_IS_NOT_DISPLAYED;
+import static org.testng.Assert.assertTrue;
 
 public class OnlinerTest {
     private final RateSteps steps = new RateSteps();
@@ -22,11 +24,11 @@ public class OnlinerTest {
 
     @Test(dataProvider = "currencies")
     public void checkRates(CurrenciesNaming query) {
-        steps.getResponse(query);
         validator.validateSchema(query);
         validator.validateHeaders(query);
         validator.validateKeys(query);
         validator.validateRegex(query);
         validator.validateStatusCode(200, query);
+        assertTrue(steps.getResponse(query).contains("grow"), PARAMETER_IS_NOT_DISPLAYED.getDisplayName());
     }
 }

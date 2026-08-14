@@ -1,7 +1,7 @@
 package validators;
 
 import enums.CurrenciesNaming;
-import page.BasePage;
+import page.BaseApi;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -9,21 +9,20 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasKey;
 import static org.testng.Assert.assertTrue;
 
-
 public class RateValidator {
 
     public void validateSchema(CurrenciesNaming query){
-        BasePage.baseProperties(query)
+        BaseApi.baseProperties(query)
         .body(matchesJsonSchemaInClasspath("schemas/rate_schema.json"));
     }
 
     public void validateHeaders(CurrenciesNaming query){
-        BasePage.baseProperties(query)
+        BaseApi.baseProperties(query)
                  .header("Content-Type", containsString("application/json"));
     }
 
     public void validateKeys(CurrenciesNaming query){
-        BasePage.baseProperties(query)
+        BaseApi.baseProperties(query)
                 .body("$", hasKey("amount"))
                 .body("$", hasKey("grow"))
                 .body("$", hasKey("scale"));
@@ -39,7 +38,7 @@ public class RateValidator {
     }
 
     public void validateStatusCode(int statusCode, CurrenciesNaming query) {
-        BasePage.baseProperties(query)
+        BaseApi.baseProperties(query)
                 .statusCode(statusCode);
     }
 }
